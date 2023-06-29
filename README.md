@@ -18,7 +18,7 @@ Instalar las dependencias (idealmente en un entorno nuevo para evitar conflictos
 
 # Vídeo de la instalación y prueba
 	
-![Example](./video.svg)
+[![asciicast](./video.svg)](https://asciinema.org/a/0bFjnsNEMPKJcKonykj0ATJo9)
 
 # Modelo
 El modelo usado es una versión sencilla de GPT-1, con los siguientes parámetros:
