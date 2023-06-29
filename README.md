@@ -9,7 +9,7 @@ en el directorio donde se quiera copiar el código. Trasladarse a la nueva carpe
 
 Instalar las dependencias (idealmente en un entorno nuevo para evitar conflictos)
 
-	pip -r requirements.txt
+	pip install -r requirements.txt
 
 # Modelo
 El modelo usado es una versión sencilla de GPT-1, con los siguientes parámetros:
