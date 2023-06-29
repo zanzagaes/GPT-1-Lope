@@ -16,7 +16,7 @@ Instalar las dependencias (idealmente en un entorno nuevo para evitar conflictos
 
 	pip install -r requirements.txt
 
-# Vídeo de la instalación y prueba
+# Vídeo de la instalación y prueba
 	
 ![Example](./video.svg)
 
