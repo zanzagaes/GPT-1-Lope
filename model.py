@@ -82,10 +82,6 @@ class GPT(nn.Module):
         self.lm_head = nn.Linear(n_embd, vocab_size, bias = False)
 
         self.apply(self._init_weights)
-        for pn, p in self.named_parameters():
-            if pn.endswith('c_proj.weight'):
-                torch.nn.init.normal_(p, mean=0.0, std=0.02/math.sqrt(2 * n_layer))
-
 
     def forward(self, x):
         _, t = x.size()
@@ -100,6 +96,7 @@ class GPT(nn.Module):
         return self.lm_head(x)
 
     def _init_weights(self, module):
+        # Inicialización de pesos, mejora la convergencia
         if isinstance(module, nn.Linear):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
             if module.bias is not None:
