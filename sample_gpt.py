@@ -39,7 +39,7 @@ with open("meta.pkl", 'rb') as file:
 
 
 @torch.no_grad()
-def generate_tokens(model, x, generated_tokens, temperature=0.8, top_k = 200):
+def generate_tokens(model, x, generated_tokens, temperature=0.8):
     for _ in range(generated_tokens):
         # recortar si se ha sobrepasado el tamaño de contexto
         x_cropped = x if x.size(1) <= model.block_size else x[:, -model.block_size:]
@@ -56,7 +56,8 @@ num_samples = 10
 start_ids = encode(prompt)
 x = (torch.tensor(start_ids, dtype=torch.long, device=device)[None, ...])
 with torch.no_grad():
+    print("Generando muestras...")
     for _ in range(num_samples):
         y = generate_tokens(model, x, max_new_tokens)
         print(decode(y[0].tolist()))
-        print("==== New sample =====")
+        print("==== Nueva muestra =====")
