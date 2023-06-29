@@ -16,9 +16,9 @@ Instalar las dependencias (idealmente en un entorno nuevo para evitar conflictos
 
 	pip install -r requirements.txt
 
-### Vídeo de la instalación y prueba
+# Vídeo de la instalación y prueba
 	
-[![asciicast](https://asciinema.org/a/0bFjnsNEMPKJcKonykj0ATJo9.svg)](https://asciinema.org/a/0bFjnsNEMPKJcKonykj0ATJo9)
+![Example](./video.svg)
 
 # Modelo
 El modelo usado es una versión sencilla de GPT-1, con los siguientes parámetros:
