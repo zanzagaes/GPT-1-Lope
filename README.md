@@ -1,4 +1,9 @@
 # Instalación
+Crear un entorno virtual y activarlo, ejecutando en una terminal:
+
+	python3 -m venv env
+	source env/bin/activate
+
 Clonar el repositorio. Para ello, ejecutar en una terminal
 
     git clone https://github.com/zanzagaes/GPT-1-Lope
@@ -9,7 +14,7 @@ en el directorio donde se quiera copiar el código. Trasladarse a la nueva carpe
 
 Instalar las dependencias (idealmente en un entorno nuevo para evitar conflictos)
 
-	pip install -r requirements.txt
+	pip -r requirements.txt
 
 # Modelo
 El modelo usado es una versión sencilla de GPT-1, con los siguientes parámetros:
