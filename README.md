@@ -1,6 +1,14 @@
 # Instalación
+Clonar el repositorio. Para ello, ejecutar en una terminal
+
+    git clone https://github.com/zanzagaes/GPT-1-Lope
+
+en el directorio donde se quiera copiar el código. Trasladarse a la nueva carpeta creada:
+
+    cd GPT-1-Lope
+
 Instalar las dependencias (idealmente en un entorno nuevo para evitar conflictos)
-	
+
 	pip -r requirements.txt
 
 # Modelo
