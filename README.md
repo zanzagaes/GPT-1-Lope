@@ -1,3 +1,7 @@
+# El programa
+
+![Prueba](./video_usage.svg)
+
 # Instalación
 Crear un entorno virtual y activarlo, ejecutando en una terminal:
 
@@ -16,7 +20,7 @@ Instalar las dependencias (idealmente en un entorno nuevo para evitar conflictos
 
 	pip install -r requirements.txt
 
-# Vídeo de la instalación y prueba
+# Vídeo de la instalación
 	
 [![asciicast](./video.svg)](https://asciinema.org/a/0bFjnsNEMPKJcKonykj0ATJo9)
 
@@ -30,26 +34,37 @@ El modelo usado es una versión sencilla de GPT-1, con los siguientes parámetro
 - Ratio de abandono (*dropout*): 0.2
 
 # Ejecución
-El fichero `sample.py` inicia el modelo, carga los pesos obtenidos del entrenamiento y lo utiliza para generar texto a partir de un texto de estímulo:
+El fichero `sample.py` inicia el modelo, carga los pesos obtenidos del entrenamiento y lo utiliza para generar texto a partir de un texto de estímulo.
 
-	python3 sample.py --prompt "[Texto de estímulo]"
+Uso del programa:
+	
+	python3 sample.py
+	
+Opciones disponibles:
 
-Si no se proporciona el argumento `prompt` el texto de estímulo por defecto es `\n` (nueva línea).
+	usage: Sample GPT [-h] [-p PROMPT] [--temp TEMPERATURE] [-s SAMPLES]
+	                  [-t TOKENS] [--seed SEED]
+	
+	options:
+	  -h, --help            show this help message and exit
+	  -p PROMPT, --prompt PROMPT
+	                        Texto de estímulo del modelo (default: )
+	  --temp TEMPERATURE, --temperature TEMPERATURE
+	                        Temperatura (default: 0.9)
+	  -s SAMPLES, --samples SAMPLES
+	                        Número de muestras generadas (default: 5)
+	  -t TOKENS, --tokens TOKENS
+	                        Símbolos generados por muestra (default: 200)
+	  --seed SEED           Semilla del generador de números pseudoaleatorios
+	                        (default: None)
+	                        
+Ejemplo para generar 1 muestra con 200 símbolos:
 
-Los argumentos para la creación de texto son:
-
-- Temperatura: por defecto, 0.8
-- Símbolos generados por muestra: por defecto, 500
-- Muestras generadas: por defecto, 10
-
-Todos los parámetros pueden alterarse en el archivo ``sample.py``.
-
+	python3 sample_gpt.py --samples 1 --tokens 200
+	
 ## Observaciones
-La semilla del generador de números pseudoaleatorios ha sido inicializada a `1337` para obtener resultados reproducibles.
+Para obtener un comportamiento reproducible hay que fijar la semilla del generardor de números pseudoaleatorios (parámetro `seed`). Por ejemplo:
 
-Si se quiere un comportamiento aleatorio hay que comentar las líneas
-
-	torch.manual_seed(seed)
-	torch.cuda.manual_seed(seed)
-
-del archivo ``sample.py``
+		python3 sample_gpt.py --samples 1 --tokens 200 --seed 1337
+		
+Si no se proporciona este parámetro, el generador se inicia con una semilla aleatoria.

@@ -5,14 +5,19 @@ from torch import nn
 from model import GPT
 
 import argparse
-parser = argparse.ArgumentParser("Sample GPT")
-parser.add_argument("--prompt", help="Texto de estímulo del modelo", type=str)
+parser = argparse.ArgumentParser("Sample GPT", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument("-p", "--prompt", help="Texto de estímulo del modelo", type=str, default = "\n", dest = "prompt")
+parser.add_argument("--temp", "--temperature", help="Temperatura", type=float, default = 0.9, dest = "temperature")
+parser.add_argument("-s", "--samples", help="Número de muestras generadas", type=int, default = 5, dest = "samples")
+parser.add_argument("-t", "--tokens", help="Símbolos generados por muestra", type=int, default = 200, dest = "tokens")
+parser.add_argument("--seed", help="Semilla del generador de números pseudoaleatorios", type=int, default = None)
 args = parser.parse_args()
 
 ## Descomentar y fijar semilla para obtener resultados replicables
-seed = 1337
-torch.manual_seed(seed)
-torch.cuda.manual_seed(seed)
+seed = args.seed 
+if seed is not None:
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
 
 # Se usa la tarjeta gráfica si la hay, si no la cpu
 device = "cpu"
@@ -48,16 +53,16 @@ def generate_tokens(model, x, generated_tokens, temperature=0.8):
         probs = nn.functional.softmax(logits, dim=-1)
         next_token = torch.multinomial(probs, num_samples=1)
         x = torch.cat((x, next_token), dim=1)
-    return x
+        yield next_token
 
-prompt = "\n" if args.prompt is None else args.prompt
-max_new_tokens = 500
-num_samples = 10
+prompt = args.prompt
+max_new_tokens = args.tokens
+num_samples = args.samples
 start_ids = encode(prompt)
 x = (torch.tensor(start_ids, dtype=torch.long, device=device)[None, ...])
 with torch.no_grad():
-    print("Generando muestras...")
     for _ in range(num_samples):
-        y = generate_tokens(model, x, max_new_tokens)
-        print(decode(y[0].tolist()))
-        print("==== Nueva muestra =====")
+        print("\n==== Nueva muestra =====")
+        print(prompt, end="")
+        for token in generate_tokens(model, x, max_new_tokens, temperature = args.temperature):
+            print(decode(token[0].tolist()), end="")
