@@ -34,11 +34,11 @@ El modelo usado es una versión sencilla de GPT-1, con los siguientes parámetro
 - Ratio de abandono (*dropout*): 0.2
 
 # Ejecución
-El fichero `sample.py` inicia el modelo, carga los pesos obtenidos del entrenamiento y lo utiliza para generar texto a partir de un texto de estímulo.
+El fichero `sample_gpt.py` inicia el modelo, carga los pesos obtenidos del entrenamiento y lo utiliza para generar texto a partir de un texto de estímulo.
 
 Uso del programa:
 	
-	python3 sample.py
+	python3 sample_gpt.py
 	
 Opciones disponibles:
 
