@@ -3,6 +3,8 @@
 ![Prueba](./video_usage.svg)
 
 # Instalación
+Es necesario disponer de una versión de Python>=3.8, a fin de poder instalar Pytorch 2.0.
+
 Crear un entorno virtual y activarlo, ejecutando en una terminal:
 
 	python3 -m venv env
