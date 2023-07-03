@@ -11,7 +11,10 @@ parser.add_argument("--temp", "--temperature", help="Temperatura", type=float, d
 parser.add_argument("-s", "--samples", help="Número de muestras generadas", type=int, default = 5, dest = "samples")
 parser.add_argument("-t", "--tokens", help="Símbolos generados por muestra", type=int, default = 200, dest = "tokens")
 parser.add_argument("--seed", help="Semilla del generador de números pseudoaleatorios", type=int, default = None)
+parser.add_argument("--gpt2", help="Si está presente, se utiliza el modelo GPT-2", action="store_true", default = False)
 args = parser.parse_args()
+
+useGPT2 = args.gpt2
 
 ## Descomentar y fijar semilla para obtener resultados replicables
 seed = args.seed 
@@ -25,7 +28,8 @@ device = "cpu"
 dtype = 'float16'
 
 # Iniciar modelo y cargar pesos
-checkpoint = torch.load("checkpoint.pt", map_location = device)
+checkpoint_name = "checkpoint_gpt2.pt" if useGPT2 else "checkpoint.pt"
+checkpoint = torch.load(checkpoint_name, map_location = device)
 model = GPT(**checkpoint["model_args"], device = device)
 weights = checkpoint["model"]
 model.load_state_dict(weights)
@@ -36,12 +40,20 @@ model.eval()
 model.to(device)
 
 # Cargar el tokenizador. En este caso, es solo un diccionario de caracteres a enteros
-with open("meta.pkl", 'rb') as file:
-    meta = pickle.load(file)
-    encode_map, decode_map = meta['encode'], meta['decode']
+def load_encoder_gpt1():
+    with open("meta.pkl", 'rb') as file:
+        meta = pickle.load(file)
+        encode_map, decode_map = meta['encode'], meta['decode']
     encode = lambda str: [encode_map[char] for char in str]
     decode = lambda res: ''.join([decode_map[num] for num in res])
+    return encode, decode
 
+def load_encoder_gpt2():
+    from transformers import AutoTokenizer
+    enc = AutoTokenizer.from_pretrained("DeepESP/gpt2-spanish")
+    return enc.encode, enc.decode
+
+encode, decode = load_encoder_gpt2() if useGPT2 else load_encoder_gpt1()
 
 @torch.no_grad()
 def generate_tokens(model, x, generated_tokens, temperature=0.8):
@@ -63,6 +75,7 @@ x = (torch.tensor(start_ids, dtype=torch.long, device=device)[None, ...])
 with torch.no_grad():
     for _ in range(num_samples):
         print("\n==== Nueva muestra =====")
-        print(prompt, end="")
+        if prompt != "\n":
+            print(prompt, end="")
         for token in generate_tokens(model, x, max_new_tokens, temperature = args.temperature):
             print(decode(token[0].tolist()), end="")
