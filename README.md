@@ -67,6 +67,21 @@ Ejemplo para generar 1 muestra con 200 símbolos:
 ## Observaciones
 Para obtener un comportamiento reproducible hay que fijar la semilla del generardor de números pseudoaleatorios (parámetro `seed`). Por ejemplo:
 
-		python3 sample_gpt.py --samples 1 --tokens 200 --seed 1337
+    python3 sample_gpt.py --samples 1 --tokens 200 --seed 1337
 		
 Si no se proporciona este parámetro, el generador se inicia con una semilla aleatoria.
+
+# GPT-2
+Es posible utilizar una versión más potente del modelo, basada en GPT-2. Para ello, es necesario seguir las instrucciones de instalación presentes en el apartado anterior. Una vez hecho, clonar el repositorio donde se almacenan los pesos:
+
+    git clone https://github.com/zanzagaes/GPT-2-Lope
+
+Instalar los requisitos extra:
+
+    pip install -r requirements.txt
+
+Y copiar el archivo `checkpoint_gpt.2pt` (o crear un enlace simbólico) a la carpeta de instalación inicial. Para habilitar el uso de GPT2, se debe añadir la bandera `--gpt2`. Por ejemplo:
+
+	python3 sample_gpt.py --gpt2 --samples 1 --tokens 200
+
+Todas las opciones de la línea de comandos son compatibles tanto con GPT-1 como con GPT-2.
